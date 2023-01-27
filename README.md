@@ -18,9 +18,9 @@ from wafermap_plot.wafermap import WaferMapPlot
 
 ## Reading the example code
 
-To reader a plot a wafermap you just have to supply a list of defect points.
+To plot a wafermap you just have to supply a list of defect points.
 
 ```
-plot = WaferMapPlot.plot(defect_points=defect_points)
-plot.show()
+figure = WaferMapPlot.plot(defect_points=defect_points)
+figure.show()
 ```
