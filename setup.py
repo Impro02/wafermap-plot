@@ -5,7 +5,7 @@ version = "0.1.0"
 setup(
     name="wafermap-plot",
     version=version,
-    packages=["wafermap-plot"],
+    packages=["wafermap_plot"],
     install_requires=["numpy", "matplotlib"],
     license="MIT",
     author="Maxime MARTIN",
