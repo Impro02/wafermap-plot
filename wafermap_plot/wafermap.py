@@ -6,9 +6,6 @@ import matplotlib.pyplot as plt
 from wafermap_plot.models.defect_point import DefectPoint
 
 
-COLORS = ["black", "red", "green", "gray", "purple", "orange", "yellow"]
-
-
 class WaferMapPlot:
     @staticmethod
     def plot(defect_points: List[DefectPoint]) -> plt.Figure:
