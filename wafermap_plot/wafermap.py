@@ -1,14 +1,17 @@
-from typing import List, Tuple
+import random
+from typing import List
 import numpy as np
 import matplotlib.pyplot as plt
 
+from wafermap_plot.models.defect_point import DefectPoint
+
+
+COLORS = ["black", "red", "green", "gray", "purple", "orange", "yellow"]
+
 
 class WaferMapPlot:
-    def __init__(self):
-        super()
-
     @staticmethod
-    def plot(defect_points: List[Tuple[float, float]]) -> plt.Figure:
+    def plot(defect_points: List[DefectPoint]) -> plt.Figure:
 
         x = np.linspace(-100, 100, 100)
         y = np.linspace(-100, 100, 100)
@@ -22,12 +25,24 @@ class WaferMapPlot:
         ax.contour(X, Y, F, [0], colors="black")
         ax.set_aspect(1)
 
-        ax.scatter(*zip(*defect_points), s=1, c="black", marker="s")
-
         ax.xaxis.set_visible(False)
         ax.yaxis.set_visible(False)
 
         plt.xlim(-110, 110)
         plt.ylim(-110, 110)
+
+        unique_bins = list(set(map(lambda x: x.bin, defect_points)))
+
+        colors = [
+            f"#{''.join([random.choice('0123456789ABCDEF') for _ in range(6)])}"
+            for _ in range(len(unique_bins))
+        ]
+
+        for index, unique_bin in enumerate(unique_bins):
+            tmp_defect_points = [
+                dp.point for dp in defect_points if dp.bin == unique_bin
+            ]
+
+            ax.scatter(*zip(*tmp_defect_points), s=1, c=colors[index], marker="s")
 
         return fig
