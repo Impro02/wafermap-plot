@@ -32,13 +32,16 @@ class WaferMapPlot:
 
         unique_bins = sorted(list(set(map(lambda x: x.bin, defect_points))))
 
-        colors = color.generate_distinct_colors(len(unique_bins))
+        colors = color.generate_distinct_colors(nbr_colors=len(unique_bins))
 
-        for index, unique_bin in enumerate(unique_bins):
-            tmp_defect_points = [
-                dp.point for dp in defect_points if dp.bin == unique_bin
-            ]
-
-            ax.scatter(*zip(*tmp_defect_points), s=1, c=colors[index], marker="s")
+        [
+            ax.scatter(
+                *zip(*[dp.point for dp in defect_points if dp.bin == unique_bin]),
+                s=1,
+                c=colors[index],
+                marker="s"
+            )
+            for index, unique_bin in enumerate(unique_bins)
+        ]
 
         return fig

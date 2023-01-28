@@ -3,9 +3,11 @@ from typing import List, Tuple
 
 from sklearn.metrics.pairwise import euclidean_distances
 
+MIN_DIFFERENCE = 50.0
+
 
 def random_rgb_color() -> Tuple[int, int, int]:
-    return (random.randint(0, 255) for _ in range(3))
+    return [random.randint(0, 255) for _ in range(3)]
 
 
 def convert_rgb_hex(rgb: Tuple[int, int, int]) -> str:
@@ -18,7 +20,10 @@ def generate_distinct_colors(nbr_colors: int) -> List[str]:
         tmp_color = random_rgb_color()
 
         is_similar = any(
-            [euclidean_distances([tmp_color], [color]) < 50.0 for color in colors]
+            [
+                euclidean_distances([tmp_color], [color]) < MIN_DIFFERENCE
+                for color in colors
+            ]
         )
 
         if not is_similar:
