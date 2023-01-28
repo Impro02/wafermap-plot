@@ -6,7 +6,7 @@ setup(
     name="wafermap-plot",
     version=version,
     packages=["wafermap_plot"],
-    install_requires=["numpy", "matplotlib"],
+    install_requires=["numpy", "matplotlib", "colormath"],
     license="MIT",
     author="Maxime MARTIN",
     author_email="maxime.martin02@hotmail.fr",

@@ -1,9 +1,11 @@
-import random
 from typing import List
+
 import numpy as np
 import matplotlib.pyplot as plt
 
 from wafermap_plot.models.defect_point import DefectPoint
+
+from wafermap_plot.libs import color
 
 
 class WaferMapPlot:
@@ -28,12 +30,9 @@ class WaferMapPlot:
         plt.xlim(-110, 110)
         plt.ylim(-110, 110)
 
-        unique_bins = list(set(map(lambda x: x.bin, defect_points)))
+        unique_bins = sorted(list(set(map(lambda x: x.bin, defect_points))))
 
-        colors = [
-            f"#{''.join([random.choice('0123456789ABCDEF') for _ in range(6)])}"
-            for _ in range(len(unique_bins))
-        ]
+        colors = color.generate_distinct_colors(len(unique_bins))
 
         for index, unique_bin in enumerate(unique_bins):
             tmp_defect_points = [
