@@ -1,16 +1,24 @@
-from typing import List
-
+# MODULES
 import numpy as np
+from typing import List
+from pathlib import Path
+
+# MATPLOTLIB
 import matplotlib.pyplot as plt
+import matplotlib.cm as mplcm
+import matplotlib.colors as colors
 
+# WAFERMAP_PLOT
 from wafermap_plot.models.defect_point import DefectPoint
-
-from wafermap_plot.libs import color
 
 
 class WaferMapPlot:
-    @staticmethod
-    def plot(defect_points: List[DefectPoint]) -> plt.Figure:
+    def __init__(self):
+        self._figure, self._ax = plt.subplots()
+
+    def plot(
+        self, defect_points: List[DefectPoint], cmap: str = "viridis"
+    ) -> plt.Figure:
 
         x = np.linspace(-100, 100, 100)
         y = np.linspace(-100, 100, 100)
@@ -19,29 +27,42 @@ class WaferMapPlot:
 
         F = X**2 + Y**2 - 100 * 100
 
-        fig, ax = plt.subplots()
+        self._ax.contour(X, Y, F, [0], colors="black")
+        self._ax.set_aspect(1)
 
-        ax.contour(X, Y, F, [0], colors="black")
-        ax.set_aspect(1)
-
-        ax.xaxis.set_visible(False)
-        ax.yaxis.set_visible(False)
+        self._ax.xaxis.set_visible(False)
+        self._ax.yaxis.set_visible(False)
 
         plt.xlim(-110, 110)
         plt.ylim(-110, 110)
 
-        unique_bins = sorted(list(set(map(lambda x: x.bin, defect_points))))
+        unique_bins = sorted(set([defect_point.bin for defect_point in defect_points]))
 
-        colors = color.generate_distinct_colors(nbr_colors=len(unique_bins))
+        number_colors = len(unique_bins)
+
+        cm = plt.get_cmap(cmap)
+        cNorm = colors.Normalize(vmin=0, vmax=number_colors - 1)
+        scalarMap = mplcm.ScalarMappable(norm=cNorm, cmap=cm)
+
+        self._ax.set_prop_cycle(
+            color=[scalarMap.to_rgba(i) for i in range(number_colors)]
+        )
 
         [
-            ax.scatter(
+            self._ax.scatter(
                 *zip(*[dp.point for dp in defect_points if dp.bin == unique_bin]),
                 s=1,
-                c=colors[index],
                 marker="s"
             )
-            for index, unique_bin in enumerate(unique_bins)
+            for unique_bin in unique_bins
         ]
 
-        return fig
+    def show(self):
+        self._figure.show()
+
+    def save(self, path: Path):
+        self._figure.savefig(path)
+
+    @property
+    def figure(self):
+        return self._figure
