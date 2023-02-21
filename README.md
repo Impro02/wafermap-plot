@@ -21,6 +21,11 @@ from wafermap_plot.wafermap import WaferMapPlot
 To plot a wafermap you just have to supply a list of defect points.
 
 ```
-figure = WaferMapPlot.plot(defect_points=defect_points)
-figure.show()
+path_save = 'demo/demo.png'
+
+wafermap_plot = WaferMapPlot()
+wafermap_plot.plot(defect_points=defect_points)
+wafermap_plot.show()
+
+wafermap_plot.save(path=path_save)
 ```
