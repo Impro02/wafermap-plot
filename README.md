@@ -10,7 +10,7 @@ pip install wafermap-plot
 
 ## How to import WaferMapPlot
 
-To access wafermap-plot ansd its functions import it in yout Python code like this:
+To access wafermap-plot ansd its functions import it in your Python code like this:
 
 ```
 from wafermap_plot.wafermap import WaferMapPlot
