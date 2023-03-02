@@ -1,11 +1,11 @@
 from setuptools import setup
 
-version = "0.1.2"
+version = "0.1.3"
 
 setup(
     name="wafermap-plot",
     version=version,
-    packages=["wafermap_plot"],
+    packages=["wafermap_plot", "wafermap_plot.models"],
     install_requires=["numpy", "matplotlib", "colormath"],
     license="MIT",
     author="Maxime MARTIN",
